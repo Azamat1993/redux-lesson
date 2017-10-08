@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "../react-redux";
 
-class Inner extends Component {
-  onToggleColor(e) {
-    this.props.dispatch({
-      type: "SET_WHITE"
-    });
-  }
+import { toggle_color } from "../actions";
 
+class Inner extends Component {
   render() {
     return (
-      <div onClick={this.onToggleColor.bind(this)}>
+      <div
+        onClick={this.props.dispatch({
+          type: "SET_WHITE"
+        })}
+      >
         inner
         {this.props.color}
       </div>
@@ -24,4 +24,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Inner);
+export default connect(mapStateToProps, {
+  toggle_color
+})(Inner);

@@ -32,14 +32,29 @@ Provider.childContextTypes = {
   store: PropTypes.object
 };
 
-export const connect = (mapStateToProps = () => {}, mapActionsToProps = () => {}) => {
+const getDispatchedActions = (actions, dispatch) => {
+  let res = {};
+  for (let i in actions) {
+    res[i] = () => dispatch(actions[i]());
+  }
+  return res;
+};
+
+export const connect = (mapStateToProps = () => {}, mapActionsToProps = {}) => {
   return ComposedComponent => {
     class ConnectedClass extends Component {
       render() {
         const { store } = this.context;
         const { getState, dispatch } = store;
+        dispatch({
+          type: "SET_WHITE"
+        });
         return (
-          <ComposedComponent {...mapStateToProps(getState())} {...mapActionsToProps(getState())} dispatch={dispatch} />
+          <ComposedComponent
+            {...mapStateToProps(getState())}
+            {...getDispatchedActions(mapActionsToProps, dispatch)}
+            dispatch={dispatch}
+          />
         );
       }
     }
