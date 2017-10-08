@@ -1,0 +1,53 @@
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+
+export class Provider extends Component {
+  constructor(props) {
+    super();
+    this.state = props.store;
+  }
+
+  componentDidMount() {
+    this.state.subscribe(this.updateState.bind(this));
+  }
+
+  updateState() {
+    this.forceUpdate();
+  }
+
+  getChildContext() {
+    return { store: this.state };
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+
+Provider.propTypes = {
+  store: PropTypes.object.isRequired
+};
+
+Provider.childContextTypes = {
+  store: PropTypes.object
+};
+
+export const connect = (mapStateToProps = () => {}, mapActionsToProps = () => {}) => {
+  return ComposedComponent => {
+    class ConnectedClass extends Component {
+      render() {
+        const { store } = this.context;
+        const { getState, dispatch } = store;
+        return (
+          <ComposedComponent {...mapStateToProps(getState())} {...mapActionsToProps(getState())} dispatch={dispatch} />
+        );
+      }
+    }
+
+    ConnectedClass.contextTypes = {
+      store: PropTypes.object
+    };
+
+    return ConnectedClass;
+  };
+};
