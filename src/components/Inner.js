@@ -13,7 +13,6 @@ class Inner extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <div onClick={this.onToggleColor.bind(this)}>
