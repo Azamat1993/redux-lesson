@@ -46,9 +46,6 @@ export const connect = (mapStateToProps = () => {}, mapActionsToProps = {}) => {
       render() {
         const { store } = this.context;
         const { getState, dispatch } = store;
-        dispatch({
-          type: "SET_WHITE"
-        });
         return (
           <ComposedComponent
             {...mapStateToProps(getState())}

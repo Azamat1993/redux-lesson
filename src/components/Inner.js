@@ -4,13 +4,13 @@ import { connect } from "../react-redux";
 import { toggle_color } from "../actions";
 
 class Inner extends Component {
+  onToggleColor(e) {
+    this.props.toggle_color();
+  }
+
   render() {
     return (
-      <div
-        onClick={this.props.dispatch({
-          type: "SET_WHITE"
-        })}
-      >
+      <div onClick={this.onToggleColor.bind(this)}>
         inner
         {this.props.color}
       </div>
