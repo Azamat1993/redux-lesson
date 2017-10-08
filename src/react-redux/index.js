@@ -35,7 +35,7 @@ Provider.childContextTypes = {
 const getDispatchedActions = (actions, dispatch) => {
   let res = {};
   for (let i in actions) {
-    res[i] = () => dispatch(actions[i]());
+    res[i] = args => dispatch(actions[i](args));
   }
   return res;
 };
